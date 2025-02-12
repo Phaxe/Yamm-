@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,10 +8,19 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, FileSearch } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ChevronDown, FileSearch, ChevronRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import { removeHttpsPrefix } from "@/app/utils/formatURL"; // Import the utility function
+import { removeHttpsPrefix } from "@/app/utils/formatURL";
+import Link from "next/link";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type TableHeader = {
   key: string;
@@ -18,7 +28,7 @@ type TableHeader = {
 };
 
 type TableRow = {
-  [key: string]: any; // Flexible row data
+  [key: string]: any;
 };
 
 type OrdersTableProps = {
@@ -26,10 +36,12 @@ type OrdersTableProps = {
   tableRows: TableRow[];
   loading?: boolean;
   error?: string | null;
-  tableClassName:string;
-  onToggleActive?: (id: string) => void;
-  onDecisionChange?: (id: string, decision: string) => void;
-  onViewDetails?: (id: string) => void;
+  tableClassName: string;
+  onToggleActive?: (id: string) => Promise<boolean>; // Return a Promise<boolean>
+  onDecisionChange?: (id: string, decision: string) => Promise<boolean>; // Return a Promise<boolean>
+  onViewDetails?: (id: string) => Promise<boolean>; // Return a Promise<boolean>
+  totalPages: number;
+  maxItems: number;
 };
 
 export default function OrdersTable({
@@ -41,15 +53,64 @@ export default function OrdersTable({
   onDecisionChange,
   onViewDetails,
   tableClassName,
+  totalPages,
+  maxItems,
 }: OrdersTableProps) {
-  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const startIndex = (currentPage - 1) * maxItems;
+  const paginatedRows = tableRows.slice(startIndex, startIndex + maxItems);
+
+  const handleToggleActive = async (id: string) => {
+    if (onToggleActive) {
+      try {
+        const success = await onToggleActive(id); // Await the API call
+        if (success) {
+          toast.success("Order status toggled successfully!");
+        } else {
+          toast.error("Failed to toggle order status.");
+        }
+      } catch (error) {
+        toast.error("An error occurred while toggling order status.");
+      }
+    }
+  };
+
+  const handleDecisionChange = async (id: string, decision: string) => {
+    if (onDecisionChange) {
+      try {
+        const success = await onDecisionChange(id, decision); // Await the API call
+        if (success) {
+          toast.success(`Order decision updated to ${decision}!`);
+        } else {
+          toast.error("Failed to update order decision.");
+        }
+      } catch (error) {
+        toast.error("An error occurred while updating order decision.");
+      }
+    }
+  };
+
+  const handleViewDetails = async (id: string) => {
+    if (onViewDetails) {
+      try {
+        const success = await onViewDetails(id); // Await the API call
+        if (success) {
+          toast.info("Redirecting to order details...");
+        } else {
+          toast.error("Failed to redirect to order details.");
+        }
+      } catch (error) {
+        toast.error("An error occurred while redirecting to order details.");
+      }
+    }
+  };
 
   if (loading) return <p>Loading data...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className={`overflow-x-auto rounded-lg border ${tableClassName}`} >
-      <table className="w-[1300px] border border-gray-200  rounded-lg">
+    <div className={`overflow-x-auto w-full ${tableClassName}`}>
+      <table className="min-w-full border border-gray-200 rounded-lg">
         <thead>
           <tr className="bg-gray-100 rounded-lg border">
             {tableHeaders.map((header) => (
@@ -60,14 +121,13 @@ export default function OrdersTable({
           </tr>
         </thead>
         <tbody>
-          {tableRows.map((row, rowIndex) => (
+          {paginatedRows.map((row, rowIndex) => (
             <tr key={rowIndex} className="border-t">
               {tableHeaders.map((header) => (
                 <td key={header.key} className="p-3">
                   {header.key === "actions" ? (
-                   
-                      onDecisionChange && (
-                        <DropdownMenu>
+                    onDecisionChange && (
+                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button
                             variant="outline"
@@ -81,70 +141,40 @@ export default function OrdersTable({
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-36">
-                          <DropdownMenuItem
-                            className="w-full text-center"
-                            onClick={() => onDecisionChange(row.id, "reject")}
-                          >
+                          <DropdownMenuItem onClick={() => handleDecisionChange(row.id, "reject")}>
                             Reject
                           </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="w-full text-center"
-                            onClick={() => onDecisionChange(row.id, "accept")}
-                          >
+                          <DropdownMenuItem onClick={() => handleDecisionChange(row.id, "accept")}>
                             Accept
                           </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="w-full text-center"
-                            onClick={() => onDecisionChange(row.id, "escalate")}
-                          >
+                          <DropdownMenuItem onClick={() => handleDecisionChange(row.id, "escalate")}>
                             Escalate
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                      
-                      )
-             
-                 
+                    )
                   ) : header.key === "store_logo" ? (
-                    <Image
-                      src={row[header.key]}
-                      width={100}
-                      height={100}
-                      alt="Store-Logo"
-                      className="w-6 h-6"
-                    />
+                    <Image src={row[header.key]} width={100} height={100} alt="Store-Logo" className="w-6 h-6" />
                   ) : header.key === "store_url" ? (
-                    // Use the utility function to remove "https://"
                     <a
-                    href={row[header.key]} // Use the full URL with https://
-                    target="_blank" // Open in a new tab
-                    rel="noopener noreferrer" // Security best practice
-                    className="text-black hover:underline"
-                  >
-                    {removeHttpsPrefix(row[header.key])} 
-                  </a>
-
-                  ) :header.key === "active" ? (
+                      href={row[header.key]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-black hover:underline"
+                    >
+                      {removeHttpsPrefix(row[header.key])}
+                    </a>
+                  ) : header.key === "active" ? (
                     onToggleActive && (
-                        <Switch
-                          checked={row.active}
-                          onCheckedChange={() => onToggleActive(row.id)}
-                        />
-                      )
-                  
-                  )  :header.key === "view" ? (
+                      <Switch checked={row.active} onCheckedChange={() => handleToggleActive(row.id)} />
+                    )
+                  ) : header.key === "view" ? (
                     onViewDetails && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => onViewDetails(row.id)}
-                        >
-                           
-                          <FileSearch className="w-5 h-5" />
-                        </Button>
-                      )
-                    
-                  ):(
+                      <Link href={`/orders/${row.id}`} onClick={() => handleViewDetails(row.id)}>
+                        <FileSearch className="w-6 h-6 text-center rounded hover:bg-gray-400 transition duration-200" />
+                      </Link>
+                    )
+                  ) : (
                     row[header.key]
                   )}
                 </td>
@@ -153,6 +183,39 @@ export default function OrdersTable({
           ))}
         </tbody>
       </table>
+
+      <div className="mt-4 flex justify-end items-end self-end">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </PaginationPrevious>
+            </PaginationItem>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <PaginationItem key={index}>
+                <Button
+                  variant={currentPage === index + 1 ? "default" : "outline"}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </Button>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </PaginationNext>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 }

@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./Redux/StoreProvider";
-import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,10 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
        
-          <Header/>
-       <div className="flex items-start justify-center">
+         
+       <div className="flex gap-10  w-full">
         <Sidebar/>
        {children}
+       <ToastContainer />
        </div>
       
       </body>

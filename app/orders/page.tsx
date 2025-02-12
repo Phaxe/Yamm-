@@ -10,9 +10,11 @@ import {
 import OrdersTable from "@/components/OrdersTable/OrdersTable";
 import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
+// import { useRouter } from "next/router";
 
 function OrdersPage() {
     const dispatch = useDispatch<AppDispatch>();
+    // const router = useRouter()
     const {
       data: orders = [],
       loading,
@@ -35,7 +37,8 @@ function OrdersPage() {
       // Navigate to order details page
       router.push(`/orders/${id}`);
     };
-  
+    const maxItems = 15;
+    const totalPages = Math.ceil(orders.length / maxItems); // Calculate total pages
     const tableHeaders = [
       { key: "id", label: "ID" },
       { key: "reason", label: "Reason" },
@@ -52,8 +55,10 @@ function OrdersPage() {
         <OrdersTable
               tableHeaders={tableHeaders}
               tableRows={orders}
-              tableClassName="mx-auto"
+              tableClassName="my-10"
               loading={loading}
+              maxItems={15}
+              totalPages={totalPages}
               error={error}
               onToggleActive={handleToggleActive}
               onDecisionChange={handleDecisionChange}
