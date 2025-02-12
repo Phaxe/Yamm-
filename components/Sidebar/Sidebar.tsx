@@ -13,7 +13,7 @@ export default function Sidebar() {
       {/* Sidebar */}
       <div
         className={cn(
-          "h-full bg-[#141212] text-white p-4 fixed top-0 left-0 transition-all duration-300",
+          "h-screen bg-gray-200 text-black p-4 fixed top-0 left-0 transition-all duration-300",
           isOpen ? "w-64" : "w-16",
           "md:relative"
         )}
@@ -30,10 +30,10 @@ export default function Sidebar() {
 
         {/* Sidebar Navigation */}
         <nav className="mt-10 space-y-4">
-          <Link href="/" className="block p-2 rounded hover:bg-gray-800">
+          <Link href="/" className="block p-2 rounded font-semibold  hover:bg-gray-500 duration-300 hover:text-white">
             {isOpen ? "Dashboard" : "🏠"}
           </Link>
-          <Link href="/orders" className="block p-2 rounded hover:bg-gray-800">
+          <Link href="/orders" className="block p-2 rounded font-semibold  hover:bg-gray-500 duration-300 hover:text-white">
             {isOpen ? "Orders" : "📦"}
           </Link>
         </nav>

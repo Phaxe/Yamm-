@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "@/app/Redux/config/store";
-import { fetchOrders } from "@/app/Redux/slices/ordersSlice";
+import { RootState, AppDispatch } from "@/Redux/config/store";
+import { fetchOrders, Order } from "@/Redux/slices/ordersSlice";
 
 export default function OrderDetailsPage() {
   const { id } = useParams(); // Get order ID from URL
   const dispatch = useDispatch<AppDispatch>();
   const { data: orders, loading } = useSelector((state: RootState) => state.orders);
-  const [order, setOrder] = useState<any>(null);
+  const [order, setOrder] = useState<Order>();
 
   useEffect(() => {
     if (orders.length === 0) {

@@ -13,7 +13,7 @@ interface OrderItem {
 }
 
 // Define the type for a single order
-interface Order {
+export interface Order {
   id: string;
   reason: string;
   store_name: string;

@@ -1,12 +1,12 @@
 "use client";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "@/app/Redux/config/store";
+import { RootState, AppDispatch } from "@/Redux/config/store";
 import {
   fetchOrders,
   toggleOrderStatus,
   updateOrderDecision,
-} from "@/app/Redux/slices/ordersSlice";
+} from "@/Redux/slices/ordersSlice";
 import OrdersTable from "@/components/OrdersTable/OrdersTable";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -51,10 +51,7 @@ function OrdersPage() {
       });
   };
 
-  const handleViewDetails = (id: string) => {
-    // Navigate to order details page
-    router.push(`/orders/${id}`);
-  };
+
 
   const maxItems = 15;
   const totalPages = Math.ceil(orders.length / maxItems); // Calculate total pages
@@ -81,7 +78,6 @@ function OrdersPage() {
       error={error}
       onToggleActive={handleToggleActive}
       onDecisionChange={handleDecisionChange}
-      onViewDetails={handleViewDetails}
     />
   );
 }
