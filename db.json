@@ -7,7 +7,7 @@
       "store_logo": "/addlogo.png",
       "store_url": "https://techgadgets.com",
       "amount": 150.75,
-      "active": false,
+      "active": true,
       "decision": "accept",
       "Items": [
         {
@@ -73,7 +73,7 @@
       "store_logo": "/addlogo.png",
       "store_url": "https://kitchenworld.com",
       "amount": 65.3,
-      "active": false,
+      "active": true,
       "decision": "accept",
       "Items": [
         {
@@ -116,7 +116,7 @@
       "store_url": "https://outdoorgear.com",
       "amount": 200.99,
       "active": true,
-      "decision": "accept",
+      "decision": "reject",
       "Items": [
         {
           "name": "Camping Tent",
@@ -163,7 +163,7 @@
       "store_logo": "/addlogo.png",
       "store_url": "https://techgadgets.com",
       "amount": 150.75,
-      "active": true,
+      "active": false,
       "decision": "accept",
       "Items": [
         {

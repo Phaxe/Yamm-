@@ -31,6 +31,7 @@ interface OrdersState {
   data: Order[];
   loading: boolean;
   error: string | null;
+  status:boolean
 }
 
 // Initial state
@@ -38,6 +39,7 @@ const initialState: OrdersState = {
   data: [],
   loading: false,
   error: null,
+  status:false
 };
 
 // Async thunk for fetching orders
@@ -108,17 +110,18 @@ const ordersSlice = createSlice({
      })
      .addCase(toggleOrderStatus.fulfilled, (state, action) => {
       const updatedOrder = action.payload;
+      state.status = true
       state.data = state.data.map((order) =>
         order.id === updatedOrder.id ? updatedOrder : order
       );
     })
     .addCase(updateOrderDecision.fulfilled, (state, action) => {
-      const updatedOrder = action.payload;
-      state.data = state.data.map((order) =>
-        order.id === updatedOrder.id ? updatedOrder : order
-      );
-    });
-    
+  const updatedOrder = action.payload;
+  state.data = state.data.map((order) =>
+    order.id === updatedOrder.id ? updatedOrder : order
+  );
+});
+
     
     
  

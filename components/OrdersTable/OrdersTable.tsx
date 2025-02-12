@@ -8,19 +8,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, FileSearch, ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronDown, FileSearch,ChevronRight,ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { removeHttpsPrefix } from "@/app/utils/formatURL";
 import Link from "next/link";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-} from "@/components/ui/pagination";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
 
 type TableHeader = {
   key: string;
@@ -37,9 +29,9 @@ type OrdersTableProps = {
   loading?: boolean;
   error?: string | null;
   tableClassName: string;
-  onToggleActive?: (id: string) => Promise<boolean>; // Return a Promise<boolean>
-  onDecisionChange?: (id: string, decision: string) => Promise<boolean>; // Return a Promise<boolean>
-  onViewDetails?: (id: string) => Promise<boolean>; // Return a Promise<boolean>
+  onToggleActive?: (id: string) => void;
+  onDecisionChange?: (id: string, decision: string) => void;
+  onViewDetails?: (id: string) => void;
   totalPages: number;
   maxItems: number;
 };
@@ -60,56 +52,11 @@ export default function OrdersTable({
   const startIndex = (currentPage - 1) * maxItems;
   const paginatedRows = tableRows.slice(startIndex, startIndex + maxItems);
 
-  const handleToggleActive = async (id: string) => {
-    if (onToggleActive) {
-      try {
-        const success = await onToggleActive(id); // Await the API call
-        if (success) {
-          toast.success("Order status toggled successfully!");
-        } else {
-          toast.error("Failed to toggle order status.");
-        }
-      } catch (error) {
-        toast.error("An error occurred while toggling order status.");
-      }
-    }
-  };
-
-  const handleDecisionChange = async (id: string, decision: string) => {
-    if (onDecisionChange) {
-      try {
-        const success = await onDecisionChange(id, decision); // Await the API call
-        if (success) {
-          toast.success(`Order decision updated to ${decision}!`);
-        } else {
-          toast.error("Failed to update order decision.");
-        }
-      } catch (error) {
-        toast.error("An error occurred while updating order decision.");
-      }
-    }
-  };
-
-  const handleViewDetails = async (id: string) => {
-    if (onViewDetails) {
-      try {
-        const success = await onViewDetails(id); // Await the API call
-        if (success) {
-          toast.info("Redirecting to order details...");
-        } else {
-          toast.error("Failed to redirect to order details.");
-        }
-      } catch (error) {
-        toast.error("An error occurred while redirecting to order details.");
-      }
-    }
-  };
-
   if (loading) return <p>Loading data...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className={`overflow-x-auto w-full ${tableClassName}`}>
+    <div className={`overflow-x-auto w-full  ${tableClassName}`}>
       <table className="min-w-full border border-gray-200 rounded-lg">
         <thead>
           <tr className="bg-gray-100 rounded-lg border">
@@ -141,13 +88,13 @@ export default function OrdersTable({
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-36">
-                          <DropdownMenuItem onClick={() => handleDecisionChange(row.id, "reject")}>
+                          <DropdownMenuItem onClick={() => onDecisionChange(row.id, "reject")}>
                             Reject
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDecisionChange(row.id, "accept")}>
+                          <DropdownMenuItem onClick={() => onDecisionChange(row.id, "accept")}>
                             Accept
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDecisionChange(row.id, "escalate")}>
+                          <DropdownMenuItem onClick={() => onDecisionChange(row.id, "escalate")}>
                             Escalate
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -166,11 +113,11 @@ export default function OrdersTable({
                     </a>
                   ) : header.key === "active" ? (
                     onToggleActive && (
-                      <Switch checked={row.active} onCheckedChange={() => handleToggleActive(row.id)} />
+                      <Switch checked={row.active} onCheckedChange={() => onToggleActive(row.id)} />
                     )
                   ) : header.key === "view" ? (
                     onViewDetails && (
-                      <Link href={`/orders/${row.id}`} onClick={() => handleViewDetails(row.id)}>
+                      <Link href={`/orders/${row.id}`}>
                         <FileSearch className="w-6 h-6 text-center rounded hover:bg-gray-400 transition duration-200" />
                       </Link>
                     )
@@ -184,38 +131,41 @@ export default function OrdersTable({
         </tbody>
       </table>
 
-      <div className="mt-4 flex justify-end items-end self-end">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </PaginationPrevious>
-            </PaginationItem>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <PaginationItem key={index}>
-                <Button
-                  variant={currentPage === index + 1 ? "default" : "outline"}
-                  onClick={() => setCurrentPage(index + 1)}
-                >
-                  {index + 1}
-                </Button>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </PaginationNext>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <div className="mt-4 flex justify-end items-end self-end ">
+  <Pagination>
+    <PaginationContent>
+      <PaginationItem>
+        <PaginationPrevious
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          {/* Left Arrow Icon */}
+          <ChevronLeft className="h-4 w-4" />
+        </PaginationPrevious>
+      </PaginationItem>
+      {Array.from({ length: totalPages }, (_, index) => (
+        <PaginationItem key={index}>
+          <Button
+            variant={currentPage === index + 1 ? "default" : "outline"}
+            onClick={() => setCurrentPage(index + 1)}
+          >
+            {index + 1}
+          </Button>
+        </PaginationItem>
+      ))}
+      <PaginationItem>
+        <PaginationNext
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          {/* Right Arrow Icon */}
+          <ChevronRight className="h-4 w-4" />
+        </PaginationNext>
+      </PaginationItem>
+    </PaginationContent>
+  </Pagination>
+</div>
+
     </div>
   );
 }
