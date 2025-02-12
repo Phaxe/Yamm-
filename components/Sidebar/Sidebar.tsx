@@ -18,8 +18,8 @@ export default function Sidebar() {
         )}
       >
         <nav className="space-y-4">
-          <Link href="/dashboard" className="block p-2 rounded hover:bg-gray-800">Dashboard</Link>
-          <Link href="/settings" className="block p-2 rounded hover:bg-gray-800">Settings</Link>
+          <Link href="/" className="block p-2 rounded hover:bg-gray-800">Dashboard</Link>
+          <Link href="/orders" className="block p-2 rounded hover:bg-gray-800">Orders</Link>
         </nav>
       </div>
       <Button

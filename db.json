@@ -1,87 +1,160 @@
 {
-    "orders": [
-      {
-        "Id": "1",
-        "reason": "Order issue",
-        "store_name": "Tech Gadgets",
-        "store_logo": "https://via.placeholder.com/100",
-        "store_url": "https://techgadgets.com",
-        "amount": 150.75,
-        "active": true,
-        "decision": null,
-        "Items": [
-          { "name": "Wireless Mouse", "id": "101", "price": 25.99, "quantity": 2 },
-          { "name": "Mechanical Keyboard", "id": "102", "price": 99.99, "quantity": 1 }
-        ]
-      },
-      {
-        "Id": "2",
-        "reason": "Delayed delivery",
-        "store_name": "Fashion Hub",
-        "store_logo": "https://via.placeholder.com/100",
-        "store_url": "https://fashionhub.com",
-        "amount": 89.50,
-        "active": false,
-        "decision": null,
-        "Items": [
-          { "name": "Denim Jacket", "id": "201", "price": 59.99, "quantity": 1 },
-          { "name": "Sneakers", "id": "202", "price": 29.51, "quantity": 1 }
-        ]
-      },
-      {
-        "Id": "3",
-        "reason": "Wrong item received",
-        "store_name": "Home Essentials",
-        "store_logo": "https://via.placeholder.com/100",
-        "store_url": "https://homeessentials.com",
-        "amount": 120.00,
-        "active": true,
-        "decision": null,
-        "Items": [
-          { "name": "Vacuum Cleaner", "id": "301", "price": 120.00, "quantity": 1 }
-        ]
-      },
-      {
-        "Id": "4",
-        "reason": "Item damaged",
-        "store_name": "Kitchen World",
-        "store_logo": "https://via.placeholder.com/100",
-        "store_url": "https://kitchenworld.com",
-        "amount": 65.30,
-        "active": false,
-        "decision": null,
-        "Items": [
-          { "name": "Blender", "id": "401", "price": 65.30, "quantity": 1 }
-        ]
-      },
-      {
-        "Id": "5",
-        "reason": "Refund requested",
-        "store_name": "Book Haven",
-        "store_logo": "https://via.placeholder.com/100",
-        "store_url": "https://bookhaven.com",
-        "amount": 35.75,
-        "active": true,
-        "decision": null,
-        "Items": [
-          { "name": "Fiction Novel", "id": "501", "price": 18.50, "quantity": 1 },
-          { "name": "Self-help Book", "id": "502", "price": 17.25, "quantity": 1 }
-        ]
-      },
-      {
-        "Id": "6",
-        "reason": "Item not as described",
-        "store_name": "Outdoor Gear",
-        "store_logo": "https://via.placeholder.com/100",
-        "store_url": "https://outdoorgear.com",
-        "amount": 200.99,
-        "active": true,
-        "decision": null,
-        "Items": [
-          { "name": "Camping Tent", "id": "601", "price": 150.99, "quantity": 1 },
-          { "name": "Sleeping Bag", "id": "602", "price": 50.00, "quantity": 1 }
-        ]
-      }
-    ]
-  }
-  
+  "orders": [
+    {
+      "id": "1",
+      "reason": "Order issue",
+      "store_name": "Tech Gadgets",
+      "store_logo": "/addlogo.png",
+      "store_url": "https://techgadgets.com",
+      "amount": 150.75,
+      "active": true,
+      "decision": "reject",
+      "Items": [
+        {
+          "name": "Wireless Mouse",
+          "id": "101",
+          "price": 25.99,
+          "quantity": 2
+        },
+        {
+          "name": "Mechanical Keyboard",
+          "id": "102",
+          "price": 99.99,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "reason": "Delayed delivery",
+      "store_name": "Fashion Hub",
+      "store_logo": "/addlogo.png",
+      "store_url": "https://fashionhub.com",
+      "amount": 89.5,
+      "active": false,
+      "decision": "accept",
+      "Items": [
+        {
+          "name": "Denim Jacket",
+          "id": "201",
+          "price": 59.99,
+          "quantity": 1
+        },
+        {
+          "name": "Sneakers",
+          "id": "202",
+          "price": 29.51,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "reason": "Wrong item received",
+      "store_name": "Home Essentials",
+      "store_logo": "/addlogo.png",
+      "store_url": "https://homeessentials.com",
+      "amount": 120,
+      "active": true,
+      "decision": "escalate",
+      "Items": [
+        {
+          "name": "Vacuum Cleaner",
+          "id": "301",
+          "price": 120,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "reason": "Item damaged",
+      "store_name": "Kitchen World",
+      "store_logo": "/addlogo.png",
+      "store_url": "https://kitchenworld.com",
+      "amount": 65.3,
+      "active": true,
+      "decision": "accept",
+      "Items": [
+        {
+          "name": "Blender",
+          "id": "401",
+          "price": 65.3,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "reason": "Refund requested",
+      "store_name": "Book Haven",
+      "store_logo": "/addlogo.png",
+      "store_url": "https://bookhaven.com",
+      "amount": 35.75,
+      "active": true,
+      "decision": "accept",
+      "Items": [
+        {
+          "name": "Fiction Novel",
+          "id": "501",
+          "price": 18.5,
+          "quantity": 1
+        },
+        {
+          "name": "Self-help Book",
+          "id": "502",
+          "price": 17.25,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "reason": "Item not as described",
+      "store_name": "Outdoor Gear",
+      "store_logo": "/addlogo.png",
+      "store_url": "https://outdoorgear.com",
+      "amount": 200.99,
+      "active": true,
+      "decision": null,
+      "Items": [
+        {
+          "name": "Camping Tent",
+          "id": "601",
+          "price": 150.99,
+          "quantity": 1
+        },
+        {
+          "name": "Sleeping Bag",
+          "id": "602",
+          "price": 50,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "reason": "Refund requested",
+      "store_name": "Book Haven",
+      "store_logo": "/addlogo.png",
+      "store_url": "https://bookhaven.com",
+      "amount": 35.75,
+      "active": true,
+      "decision": "reject",
+      "Items": [
+        {
+          "name": "Fiction Novel",
+          "id": "501",
+          "price": 18.5,
+          "quantity": 1
+        },
+        {
+          "name": "Self-help Book",
+          "id": "502",
+          "price": 17.25,
+          "quantity": 1
+        }
+      ]
+    }
+  ]
+}
