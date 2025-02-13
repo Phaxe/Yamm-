@@ -1,7 +1,7 @@
 
 
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError }  from "axios";
 const API_URL = process.env.NEXT_PUBLIC_MAIN_URL;
 import api from "../config/apiService";
 // Define the type for an order item
@@ -69,7 +69,8 @@ export const toggleOrderStatus = createAsyncThunk(
 
       return response.data; // Return the updated order from the API
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to update order status");
+      const axiosError = error as AxiosError;
+      return rejectWithValue(axiosError.response?.data || "Failed to update order status");
     }
   }
 );
@@ -80,7 +81,8 @@ export const updateOrderDecision = createAsyncThunk(
       const response = await axios.put(`${API_URL}/orders/${id}`, { decision });
       return response.data; // Ensure API returns updated order
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to update decision");
+      const axiosError = error as AxiosError;
+      return rejectWithValue(axiosError.response?.data || "Failed to update decision");
     }
   }
 );
