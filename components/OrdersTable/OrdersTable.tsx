@@ -103,7 +103,7 @@ console.log(tableRows);
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className={`overflow-x-auto w-full  ${tableClassName}`}>
+    <div className={`overflow-x-auto w-full rounded-lg ${tableClassName}`}>
       <table className="w-full border border-gray-200 rounded-lg">
         <thead>
           <tr className="bg-gray-200 rounded-lg border">
@@ -120,7 +120,7 @@ console.log(tableRows);
           {paginatedRows.map((row, rowIndex) => (
             <tr key={rowIndex} className="border-t">
               {tableHeaders.map((header) => (
-                <td key={header.key} className="p-3 max-w-[150px] truncate" title={row[header.key]}>
+                <td key={header.key} className="p-3 max-w-[150px] truncate" title={row[header.key] ? String(row[header.key]) : undefined} >
                    {/* dynamicly showing rows depending on the header.key values from tableHeaders prop */}
                   {header.key === "actions" ? (
                     //DropdownMenu from shadcn to handle the decision change function
@@ -130,7 +130,7 @@ console.log(tableRows);
                           <Button
                             variant="outline"
                             size="lg"
-                            className={`w-36 h-10 flex items-center justify-between ${
+                            className={`w-[100px] p-2 h-10 flex items-center justify-start ${
                               row.decision
                                 ? getDecisionStyles(row.decision).textColor
                                 : "text-gray-600"
@@ -140,7 +140,7 @@ console.log(tableRows);
                               ? row.decision.charAt(0).toUpperCase() +
                                 row.decision.slice(1)
                               : "Change"}
-                            <ChevronDown className="ml-2 h-4 w-4" />
+                            <ChevronDown className=" h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-36">
