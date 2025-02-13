@@ -3,6 +3,9 @@ import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { makeStore, AppStore } from './config/store'
 
+//using Redux with Nextjs needs a store provider to wrap the application without changing the layout to client side and for better performance 
+// this is a provider function from redux
+
 export default function StoreProvider({
   children,
 }: {
