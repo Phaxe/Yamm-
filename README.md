@@ -14,23 +14,13 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Hello there, I started this mini project with installing Nextjs, shadcn, redux, redux-toolkit, toastify, axios and lucid-reacte 
+1. Created the folder structure for Redux to manage the state inside it 
+2. created lib/utils for small utils functions
+3. inside component there will be my own components (sidebar and ordersTable) and inside ui will be the shadcn components
+4. i used at the start json-server to mock the data untill i achived the desired goals regarding the task
+5. when trying to deploy it on vercel with json-server would take alot of time so i used mockapi to deploy it faster
+6. changed some settings and configration on vercel.com to deploy it succsesfuly 
+7. created both pages for /orders which will take you to the orders table
+8. created single order page which you can navigate to from the table or manually with /order/#
+9. responsive side bar with toggle options and 2 navigation links one to the dashboard and the second to the orders table page
