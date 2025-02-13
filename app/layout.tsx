@@ -38,7 +38,7 @@ export default function RootLayout({
         <Sidebar/>
        {children}
        {/* Toast container to be available across the application */}
-       <ToastContainer />
+       <ToastContainer  />
        </div>
       
       </body>

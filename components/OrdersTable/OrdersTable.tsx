@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -119,7 +120,7 @@ console.log(tableRows);
           {paginatedRows.map((row, rowIndex) => (
             <tr key={rowIndex} className="border-t">
               {tableHeaders.map((header) => (
-                <td key={header.key} className="p-3">
+                <td key={header.key} className="p-3 max-w-[150px] truncate" title={row[header.key]}>
                    {/* dynamicly showing rows depending on the header.key values from tableHeaders prop */}
                   {header.key === "actions" ? (
                     //DropdownMenu from shadcn to handle the decision change function

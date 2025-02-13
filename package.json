@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "json-server": "json-server --watch db.json --port 4000"
+    "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
