@@ -32,7 +32,7 @@
       "store_url": "https://fashionhub.com",
       "amount": 89.5,
       "active": true,
-      "decision": "accept",
+      "decision": "escalate",
       "Items": [
         {
           "name": "Denim Jacket",
@@ -55,7 +55,7 @@
       "store_logo": "/addlogo.png",
       "store_url": "https://homeessentials.com",
       "amount": 120,
-      "active": false,
+      "active": true,
       "decision": "accept",
       "Items": [
         {

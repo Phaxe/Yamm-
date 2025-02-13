@@ -27,16 +27,16 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from "@/components/ui/pagination";
-
+//Table header type
 type TableHeader = {
   key: string;
   label: string;
 };
-
+//Table row type
 type TableRow = {
   [key: string]: any;
 };
-
+//Table props type
 type OrdersTableProps = {
   tableHeaders: TableHeader[];
   tableRows: TableRow[];
@@ -60,9 +60,11 @@ export default function OrdersTable({
   totalPages,
   maxItems,
 }: OrdersTableProps) {
+//to handle table pagination startIndex and maxItems are passed dynamicly 
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * maxItems;
   const paginatedRows = tableRows.slice(startIndex, startIndex + maxItems);
+
   // Function to get color classes based on decision
   const getDecisionStyles = (decision: string | null) => {
     switch (decision) {
@@ -92,7 +94,10 @@ export default function OrdersTable({
         };
     }
   };
+  // To handle data while loading can add loading indicator later...
   if (loading) return <p>Loading data...</p>;
+
+  // To handle error coming from the server can be adjust in the future for better error displaying
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -100,6 +105,7 @@ export default function OrdersTable({
       <table className="min-w-full border border-gray-200 rounded-lg">
         <thead>
           <tr className="bg-gray-200 rounded-lg border">
+               {/* table headers labels */}
             {tableHeaders.map((header) => (
               <th key={header.key} className="p-3 text-left">
                 {header.label}
@@ -108,11 +114,14 @@ export default function OrdersTable({
           </tr>
         </thead>
         <tbody>
+           {/* displaying data depending on paginations rules */}
           {paginatedRows.map((row, rowIndex) => (
             <tr key={rowIndex} className="border-t">
               {tableHeaders.map((header) => (
                 <td key={header.key} className="p-3">
+                   {/* dynamicly showing rows depending on the header.key values from tableHeaders prop */}
                   {header.key === "actions" ? (
+                    //DropdownMenu from shadcn to handle the decision change function
                     onDecisionChange && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -160,6 +169,7 @@ export default function OrdersTable({
                       </DropdownMenu>
                     )
                   ) : header.key === "store_logo" ? (
+                    //LOGO colmun *******
                     <Image
                     loading="lazy"
                       src={row[header.key]}
@@ -169,22 +179,25 @@ export default function OrdersTable({
                       className="w-12 h-12 object-cover"
                     />
                   ) : header.key === "store_url" ? (
-                    <a
+                     //Link colmun *******
+                    <Link
                       href={row[header.key]}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-black hover:underline"
                     >
                       {removeHttpsPrefix(row[header.key])}
-                    </a>
+                    </Link>
                   ) : header.key === "active" ? (
                     onToggleActive && (
+                       //switch colmun *******
                       <Switch
                         checked={row.active}
                         onCheckedChange={() => onToggleActive(row.id)}
                       />
                     )
                   ) : header.key === "view" ? (
+                     //View colmun *******
                     <Link href={`/orders/${row.id}`}>
                       <FileSearch className="w-6 h-6 text-center rounded hover:bg-gray-400 transition duration-200" />
                     </Link>
@@ -199,6 +212,7 @@ export default function OrdersTable({
       </table>
 
       <div className="mt-4 flex justify-end items-end self-end ">
+          {/* table pagination using shadcn components  */}
         <Pagination>
           <PaginationContent>
             <PaginationItem>

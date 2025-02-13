@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Sidebar() {
+  //state to handle the toggle for opening and closing the side menu could be updated to use resuable hook for toggling state 
   const [isOpen, setIsOpen] = useState(true);
 
   return (

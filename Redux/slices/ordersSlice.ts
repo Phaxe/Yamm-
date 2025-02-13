@@ -65,7 +65,7 @@ export const toggleOrderStatus = createAsyncThunk(
 
       const updatedActive = !order.active;
 
-      const response = await api.patch(`${API_URL}/orders/${id}`, { active: updatedActive });
+      const response = await api.put(`${API_URL}/orders/${id}`, { active: updatedActive });
 
       return response.data; // Return the updated order from the API
     } catch (error) {
@@ -77,7 +77,7 @@ export const updateOrderDecision = createAsyncThunk(
   "orders/updateOrderDecision",
   async ({ id, decision }: { id: string; decision: "reject" | "accept" | "escalate" }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(`${API_URL}/orders/${id}`, { decision });
+      const response = await axios.put(`${API_URL}/orders/${id}`, { decision });
       return response.data; // Ensure API returns updated order
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to update decision");
