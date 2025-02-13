@@ -27,6 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+          {/* Redux state provider wrapping the whole application to pass the state across it  */}
       <StoreProvider>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#fcfcfc]`}
@@ -36,6 +37,7 @@ export default function RootLayout({
        <div className="flex gap-10  w-full">
         <Sidebar/>
        {children}
+       {/* Toast container to be available across the application */}
        <ToastContainer />
        </div>
       

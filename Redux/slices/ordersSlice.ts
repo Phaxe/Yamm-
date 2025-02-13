@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError }  from "axios";
 const API_URL = process.env.NEXT_PUBLIC_MAIN_URL;
 // import api from "../config/apiService";
+
 // Define the type for an order item
 interface OrderItem {
   name: string;
@@ -54,6 +55,7 @@ export const fetchOrders = createAsyncThunk("orders/fetch", async () => {
   }
 });
 
+//Updating the order status API call
 export const toggleOrderStatus = createAsyncThunk(
   "orders/toggleOrderStatus",
   async (id: string, { rejectWithValue, getState }) => {
@@ -74,6 +76,8 @@ export const toggleOrderStatus = createAsyncThunk(
     }
   }
 );
+
+//Updating the decision API call
 export const updateOrderDecision = createAsyncThunk(
   "orders/updateOrderDecision",
   async ({ id, decision }: { id: string; decision: "reject" | "accept" | "escalate" }, { rejectWithValue }) => {
