@@ -3,7 +3,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError }  from "axios";
 const API_URL = process.env.NEXT_PUBLIC_MAIN_URL;
-import api from "../config/apiService";
+// import api from "../config/apiService";
 // Define the type for an order item
 interface OrderItem {
   name: string;
@@ -45,7 +45,7 @@ const initialState: OrdersState = {
 // Async thunk for fetching orders
 export const fetchOrders = createAsyncThunk("orders/fetch", async () => {
   try {
-    const response = await api.get(
+    const response = await axios.get(
       `${API_URL}/orders`
     );
     return response.data; // Assuming the API returns an array of orders
@@ -65,7 +65,7 @@ export const toggleOrderStatus = createAsyncThunk(
 
       const updatedActive = !order.active;
 
-      const response = await api.put(`${API_URL}/orders/${id}`, { active: updatedActive });
+      const response = await axios.put(`${API_URL}/orders/${id}`, { active: updatedActive });
 
       return response.data; // Return the updated order from the API
     } catch (error) {
