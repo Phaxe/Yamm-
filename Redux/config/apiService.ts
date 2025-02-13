@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.MAIN_URL, // Use environment variable for base URL
+  baseURL: process.env.NEXT_PUBLIC_MAIN_URL, // Use environment variable for base URL
 });
 
 api.interceptors.request.use(

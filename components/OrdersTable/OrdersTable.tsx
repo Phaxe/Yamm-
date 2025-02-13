@@ -64,6 +64,7 @@ export default function OrdersTable({
   const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * maxItems;
   const paginatedRows = tableRows.slice(startIndex, startIndex + maxItems);
+console.log(tableRows);
 
   // Function to get color classes based on decision
   const getDecisionStyles = (decision: string | null) => {
