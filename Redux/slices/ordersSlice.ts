@@ -116,7 +116,6 @@ const ordersSlice = createSlice({
      })
      .addCase(toggleOrderStatus.fulfilled, (state, action) => {
       const updatedOrder = action.payload;
-      state.status = true
       state.data = state.data.map((order) =>
         order.id === updatedOrder.id ? updatedOrder : order
       );
