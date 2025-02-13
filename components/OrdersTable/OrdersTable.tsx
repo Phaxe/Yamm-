@@ -102,7 +102,7 @@ export default function OrdersTable({
 
   return (
     <div className={`overflow-x-auto w-full  ${tableClassName}`}>
-      <table className="min-w-full border border-gray-200 rounded-lg">
+      <table className="w-full border border-gray-200 rounded-lg">
         <thead>
           <tr className="bg-gray-200 rounded-lg border">
                {/* table headers labels */}
