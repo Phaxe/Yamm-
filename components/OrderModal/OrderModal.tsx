@@ -125,86 +125,86 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({ onSubmit, onClose }) => {
               </div>
 
               {/* Items Field Array */}
-              <FieldArray name="items">
-                {({ push, remove }) => (
-                  <div className="max-h-60 overflow-y-auto border p-2 mt-5 rounded-md">
-                    <h3 className="font-bold mt-4">Items</h3>
-                    {values.Items.map((_, index) => (
-                      <div
-                        key={index}
-                        className="border p-2 mb-2 bg-gray-200 rounded"
-                      >
-                        <div>
-                          <label>Item Name</label>
-                          <Field
-                            name={`items.${index}.name`}
-                            className="border p-2 w-full"
-                          />
-                          <ErrorMessage
-                            name={`items.${index}.name`}
-                            component="div"
-                            className="text-red-500 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label>Item ID</label>
-                          <Field
-                            name={`items.${index}.id`}
-                            className="border p-2 w-full"
-                          />
-                          <ErrorMessage
-                            name={`items.${index}.id`}
-                            component="div"
-                            className="text-red-500 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label>Price</label>
-                          <Field
-                            name={`items.${index}.price`}
-                            type="number"
-                            className="border p-2 w-full"
-                          />
-                          <ErrorMessage
-                            name={`items.${index}.price`}
-                            component="div"
-                            className="text-red-500 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <label>Quantity</label>
-                          <Field
-                            name={`items.${index}.quantity`}
-                            type="number"
-                            className="border p-2 w-full"
-                          />
-                          <ErrorMessage
-                            name={`items.${index}.quantity`}
-                            component="div"
-                            className="text-red-500 text-sm"
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => remove(index)}
-                          className="text-red-500 mt-2"
-                        >
-                          Remove Item
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        push({ name: "", id: "", price: 0, quantity: 1 })
-                      }
-                      className="mt-2 text-blue-500"
-                    >
-                      Add Item
-                    </button>
-                  </div>
-                )}
-              </FieldArray>
+              <FieldArray name="Items">
+  {({ push, remove }) => (
+    <div className="max-h-60 overflow-y-auto border p-2 mt-5 rounded-md">
+      <h3 className="font-bold mt-4">Items</h3>
+      {values.Items.map((_, index) => (
+        <div
+          key={index}
+          className="border p-2 mb-2 bg-gray-200 rounded"
+        >
+          <div>
+            <label>Item Name</label>
+            <Field
+              name={`Items.${index}.name`}
+              className="border p-2 w-full"
+            />
+            <ErrorMessage
+              name={`Items.${index}.name`}
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <div>
+            <label>Item ID</label>
+            <Field
+              name={`Items.${index}.id`}
+              className="border p-2 w-full"
+            />
+            <ErrorMessage
+              name={`Items.${index}.id`}
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <div>
+            <label>Price</label>
+            <Field
+              name={`Items.${index}.price`}
+              type="number"
+              className="border p-2 w-full"
+            />
+            <ErrorMessage
+              name={`Items.${index}.price`}
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <div>
+            <label>Quantity</label>
+            <Field
+              name={`Items.${index}.quantity`}
+              type="number"
+              className="border p-2 w-full"
+            />
+            <ErrorMessage
+              name={`Items.${index}.quantity`}
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => remove(index)}
+            className="text-red-500 mt-2"
+          >
+            Remove Item
+          </button>
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() =>
+          push({ name: "", id: "", price: 0, quantity: 1 })
+        }
+        className="mt-2 text-blue-500"
+      >
+        Add Item
+      </button>
+    </div>
+  )}
+</FieldArray>
 
               <div className="flex justify-end mt-4">
                 <button

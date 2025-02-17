@@ -117,6 +117,23 @@ export const createOrder = createAsyncThunk(
   }
 );
 
+
+// Async thunk for deleting a new order
+export const deleteOrder = createAsyncThunk(
+  "orders/deleteOrder",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      await api.delete(`/orders/${id}`);
+      return id; // Return the ID of the deleted order
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue(
+        axiosError.response?.data || "Failed to delete order"
+      );
+    }
+  }
+);
+
 // Create the Redux slice
 const ordersSlice = createSlice({
   name: "orders",
@@ -161,6 +178,12 @@ const ordersSlice = createSlice({
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to create order";
+      })
+      .addCase(deleteOrder.fulfilled, (state, action: PayloadAction<number>) => {
+        state.data = state.data.filter((order) => order.id !== action.payload); // Remove the deleted order from the state
+      })
+      .addCase(deleteOrder.rejected, (state, action) => {
+        state.error = action.error.message || "Failed to delete order";
       });
   },
 });

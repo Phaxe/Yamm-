@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-
+import { Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -46,6 +46,7 @@ type OrdersTableProps = {
   tableClassName: string;
   onToggleActive?: (id: string) => void;
   onDecisionChange?: (id: string, decision: string) => void;
+  deleteOrder?: (id:number) => void,
   totalPages: number;
   maxItems: number;
 };
@@ -57,6 +58,7 @@ export default function OrdersTable({
   error = null,
   onToggleActive,
   onDecisionChange,
+  deleteOrder,
   tableClassName,
   totalPages,
   maxItems,
@@ -203,9 +205,20 @@ console.log(tableRows);
                     <Link href={`/orders/${row.id}`}>
                       <FileSearch className="w-6 h-6 text-center rounded hover:bg-gray-400 transition duration-200" />
                     </Link>
-                  ) : (
-                    row[header.key]
-                  )}
+                  )  : header.key === "delete" ? (
+                    //View colmun *******
+                    <Trash2
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => {
+                      if (deleteOrder) {
+                        deleteOrder(row.id);
+                      }
+                    }}
+                  />
+                 ) : (
+                   row[header.key]
+                 )
+                  }
                 </td>
               ))}
             </tr>

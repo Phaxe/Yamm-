@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/Redux/config/store";
 import {
   createOrder,
+  deleteOrder,
   fetchOrders,
   Order,
   toggleOrderStatus,
@@ -79,6 +80,9 @@ function OrdersPage() {
         toast.error("An error occurred while updating order decision.");
       });
   };
+
+  //Add new order Modal and form 
+  //this use state can me updated to reusable hook--
   const [isModalOpen, setModalOpen] = useState(false);
   const handleAddOrder = async (newOrder: OrderData) => {
     try {
@@ -92,6 +96,18 @@ function OrdersPage() {
       toast.error("Failed to create order.");
     }
   };
+
+// Handling deleting order request
+const handleDeleteOrder = async (id: number) => {
+  try {
+    const resultAction = await dispatch(deleteOrder(id)).unwrap();
+    if (resultAction) {
+      toast.error("Order deleted successfully!");
+    }
+  } catch (error) {
+    toast.error("Failed to delete order.");
+  }
+};
   
 
 
@@ -110,6 +126,7 @@ function OrdersPage() {
     { key: "active", label: "Active" },
     { key: "actions", label: "Actions" },
     { key: "view", label: "View" },
+    { key: "delete", label: "Delete" }
   ];
 //calling and passing props to the generic table 
   return (
@@ -125,6 +142,7 @@ function OrdersPage() {
       error={error}
       onToggleActive={handleToggleActive}
       onDecisionChange={handleDecisionChange}
+      deleteOrder={handleDeleteOrder}
     />
 
 {isModalOpen && (
