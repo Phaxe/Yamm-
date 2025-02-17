@@ -7,7 +7,7 @@ import api from "../config/apiService";
 
 
 // Define the type for an order item
-interface OrderItem {
+export interface OrderItem {
   name: string;
   id: string;
   price: number;
@@ -96,6 +96,22 @@ export const updateOrderDecision = createAsyncThunk(
       const axiosError = error as AxiosError;
       return rejectWithValue(
         axiosError.response?.data || "Failed to update decision"
+      );
+    }
+  }
+);
+
+// Async thunk for creating a new order
+export const createOrder = createAsyncThunk(
+  "orders/createOrder",
+  async (newOrder: Order, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/orders`, newOrder);
+      return response.data; // Assuming API returns the created order
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      return rejectWithValue(
+        axiosError.response?.data || "Failed to create order"
       );
     }
   }

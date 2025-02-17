@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/Redux/config/store";
 import {
@@ -10,7 +10,28 @@ import {
 import OrdersTable from "@/components/OrdersTable/OrdersTable";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import AddOrderModal from "@/components/OrderModal/OrderModal";
 
+interface OrderItem {
+  name: string;
+  id: string;
+  price: number;
+  quantity: number;
+}
+
+interface OrderData {
+  id: number;
+  reason: string;
+  store_name: string;
+  store_logo: string;
+  store_url: string;
+  amount: number;
+  active: boolean;
+  decision: null;
+  items: OrderItem[];
+}
 function OrdersPage() {
 
   const dispatch = useDispatch<AppDispatch>();
@@ -56,6 +77,10 @@ function OrdersPage() {
         toast.error("An error occurred while updating order decision.");
       });
   };
+  const [isModalOpen, setModalOpen] = useState(false);
+  const handleAddOrder = (newOrder: OrderData) => {
+    console.log("New Order Received:", JSON.stringify(newOrder, null, 2));
+  };
 
 
 //Here to pass the max item per page and the total page to dynamicly pass it through tables
@@ -76,10 +101,12 @@ function OrdersPage() {
   ];
 //calling and passing props to the generic table 
   return (
+    <div className="w-full flex flex-col items-center justify-center mt-10">
+      <Button onClick={() => setModalOpen(true)} className="flex-end self-end">Add new order</Button>
     <OrdersTable
       tableHeaders={tableHeaders}
       tableRows={orders}
-      tableClassName="my-10"
+      tableClassName="my-10 w-full"
       loading={loading}
       maxItems={15}
       totalPages={totalPages}
@@ -87,6 +114,12 @@ function OrdersPage() {
       onToggleActive={handleToggleActive}
       onDecisionChange={handleDecisionChange}
     />
+
+{isModalOpen && (
+  <AddOrderModal onSubmit={(values) => handleAddOrder(values as OrderData)} onClose={() => setModalOpen(false)} />
+)}
+    </div>
+
   );
 }
 
