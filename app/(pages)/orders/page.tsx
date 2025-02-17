@@ -25,7 +25,7 @@ interface OrderItem {
 }
 
 interface OrderData {
-  id: number;
+  id: string;
   reason: string;
   store_name: string;
   store_logo: string;
@@ -98,7 +98,7 @@ function OrdersPage() {
   };
 
 // Handling deleting order request
-const handleDeleteOrder = async (id: number) => {
+const handleDeleteOrder = async (id: string) => {
   try {
     const resultAction = await dispatch(deleteOrder(id)).unwrap();
     if (resultAction) {

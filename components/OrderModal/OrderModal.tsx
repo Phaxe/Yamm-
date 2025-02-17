@@ -10,7 +10,7 @@ interface OrderItem {
 }
 
 interface OrderData {
-  id: number;
+  id: string;
   reason: string;
   store_name: string;
   store_logo: string;
@@ -33,7 +33,7 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({ onSubmit, onClose }) => {
         <h2 className="text-xl font-bold mb-4">Add New Order</h2>
         <Formik<OrderData> // Explicitly set the type of form values
           initialValues={{
-            id: Date.now(),
+            id: String(Date.now()),
             reason: "",
             store_name: "",
             store_logo: "/addlogo.png",

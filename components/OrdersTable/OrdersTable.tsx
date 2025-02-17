@@ -46,7 +46,7 @@ type OrdersTableProps = {
   tableClassName: string;
   onToggleActive?: (id: string) => void;
   onDecisionChange?: (id: string, decision: string) => void;
-  deleteOrder?: (id:number) => void,
+  deleteOrder?: (id:string) => void,
   totalPages: number;
   maxItems: number;
 };

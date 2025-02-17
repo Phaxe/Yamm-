@@ -16,7 +16,7 @@ export interface OrderItem {
 
 // Define the type for a single order
 export interface Order {
-  id: number;
+  id: string;
   reason: string;
   store_name: string;
   store_logo: string;
@@ -121,7 +121,7 @@ export const createOrder = createAsyncThunk(
 // Async thunk for deleting a new order
 export const deleteOrder = createAsyncThunk(
   "orders/deleteOrder",
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       await api.delete(`/orders/${id}`);
       return id; // Return the ID of the deleted order
@@ -179,7 +179,7 @@ const ordersSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to create order";
       })
-      .addCase(deleteOrder.fulfilled, (state, action: PayloadAction<number>) => {
+      .addCase(deleteOrder.fulfilled, (state, action: PayloadAction<string>) => {
         state.data = state.data.filter((order) => order.id !== action.payload); // Remove the deleted order from the state
       })
       .addCase(deleteOrder.rejected, (state, action) => {
