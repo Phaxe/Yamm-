@@ -22,12 +22,14 @@ export default function OrderDetailsPage() {
   }, [dispatch, orders.length]);
 
   useEffect(() => {
-    if (orders.length > 0) {
-      const foundOrder = orders.find((order) => order.id === id);
-      setOrder(foundOrder || null);
+    if (id !== undefined) {
+      const numericId = Number(id);
+      if (!isNaN(numericId)) {
+        const foundOrder = orders.find((order) => order.id === numericId);
+        setOrder(foundOrder || null);
+      }
     }
   }, [orders, id]);
-
   if (loading) return <p>Loading order details...</p>;
   if (!order) return <p>Order not found.</p>;
 
