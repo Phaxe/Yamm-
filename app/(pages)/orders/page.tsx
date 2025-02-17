@@ -6,7 +6,6 @@ import {
   createOrder,
   deleteOrder,
   fetchOrders,
-  Order,
   toggleOrderStatus,
   updateOrderDecision,
 } from "@/Redux/slices/ordersSlice";
@@ -16,25 +15,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AddOrderModal from "@/components/OrderModal/OrderModal";
+import { Order } from "@/app/types/orderTypes";
 
-interface OrderItem {
-  name: string;
-  id: string;
-  price: number;
-  quantity: number;
-}
-
-interface OrderData {
-  id: string;
-  reason: string;
-  store_name: string;
-  store_logo: string;
-  store_url: string;
-  amount: number;
-  active: boolean;
-  decision: null;
-  Items: OrderItem[];
-}
 function OrdersPage() {
 
   const dispatch = useDispatch<AppDispatch>();
@@ -84,7 +66,7 @@ function OrdersPage() {
   //Add new order Modal and form 
   //this use state can me updated to reusable hook--
   const [isModalOpen, setModalOpen] = useState(false);
-  const handleAddOrder = async (newOrder: OrderData) => {
+  const handleAddOrder = async (newOrder: Order) => {
     try {
       const resultAction = await dispatch(createOrder(newOrder)).unwrap();
   
@@ -183,7 +165,7 @@ return (
     </div>
     {isModalOpen && (
       <AddOrderModal
-        onSubmit={(values) => handleAddOrder(values as OrderData)}
+        onSubmit={(values) => handleAddOrder(values as Order)}
         onClose={() => setModalOpen(false)}
       />
     )}

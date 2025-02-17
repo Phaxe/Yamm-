@@ -1,25 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-interface OrderItem {
-  name: string;
-  id: string;
-  price: number;
-  quantity: number;
-}
-
-interface OrderData {
-  id: string;
-  reason: string;
-  store_name: string;
-  store_logo: string;
-  store_url: string;
-  amount: number;
-  active: boolean;
-  decision: null;
-  Items: OrderItem[];
-}
+import { OrderData, OrderItem } from "@/app/types/orderTypes";
 
 interface AddOrderModalProps {
   onSubmit: (values: OrderData) => void;

@@ -2,38 +2,11 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 const API_URL = process.env.NEXT_PUBLIC_MAIN_URL;
 import api from "../config/apiService";
-
+import { Order, OrderData, OrdersState, OrderItem } from "@/app/types/orderTypes";
 //Slice to manage request related to orders --- 
 
 
-// Define the type for an order item
-export interface OrderItem {
-  name: string;
-  id: string;
-  price: number;
-  quantity: number;
-}
 
-// Define the type for a single order
-export interface Order {
-  id: string;
-  reason: string;
-  store_name: string;
-  store_logo: string;
-  store_url: string;
-  amount: number;
-  active: boolean;
-  decision: null | "reject" | "accept" | "escalate";
-  Items: OrderItem[];
-}
-
-// Define the slice state type
-interface OrdersState {
-  data: Order[];
-  loading: boolean;
-  error: string | null;
-  status: boolean;
-}
 
 // Initial state
 const initialState: OrdersState = {
