@@ -108,12 +108,34 @@ const handleDeleteOrder = async (id: number) => {
     toast.error("Failed to delete order.");
   }
 };
-  
+
+//Handling search functionality
+const [searchQuery, setSearchQuery] = useState("");
+
+const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setSearchQuery(e.target.value);
+};
+
+const filterOrders = (orders: Order[], query: string) => {
+  if (!query) return orders;
+
+  const lowerCaseQuery = query.toLowerCase();
+  return orders.filter(order => {
+    return (
+      order.reason.toLowerCase().includes(lowerCaseQuery) ||
+      order.store_name.toLowerCase().includes(lowerCaseQuery) ||
+      order.store_url.toLowerCase().includes(lowerCaseQuery) ||
+      order.id.toString().includes(lowerCaseQuery)
+    );
+  });
+};
+
+const filteredOrders = filterOrders(orders, searchQuery);
 
 
 //Here to pass the max item per page and the total page to dynamicly pass it through tables
   const maxItems = 15;
-  const totalPages = Math.ceil(orders.length / maxItems); // Calculate total pages
+  const totalPages = Math.ceil(filteredOrders.length / maxItems); // Calculate total pages
 
 // Here to pass table headers depending on the table needs 
   const tableHeaders = [
@@ -129,28 +151,44 @@ const handleDeleteOrder = async (id: number) => {
     { key: "delete", label: "Delete" }
   ];
 //calling and passing props to the generic table 
-  return (
-    <div className="w-full flex flex-col items-center justify-center mt-10">
-      <Button onClick={() => setModalOpen(true)} className="flex-end self-end">Add new order</Button>
-    <OrdersTable
-      tableHeaders={tableHeaders}
-      tableRows={orders}
-      tableClassName="my-10 w-full"
-      loading={loading}
-      maxItems={15}
-      totalPages={totalPages}
-      error={error}
-      onToggleActive={handleToggleActive}
-      onDecisionChange={handleDecisionChange}
-      deleteOrder={handleDeleteOrder}
-    />
-
-{isModalOpen && (
-  <AddOrderModal onSubmit={(values) => handleAddOrder(values as OrderData)} onClose={() => setModalOpen(false)} />
-)}
+return (
+  <div className="w-full flex flex-col items-center justify-center mt-10">
+    <div className="w-full max-w-7xl mx-auto">
+      <div className="flex items-center justify-between mb-4">
+        <input
+          type="text"
+          placeholder="Search by Reason, Store Name, Store URL, or ID"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="border p-2 w-full md:w-1/2"
+        />
+        <Button onClick={() => setModalOpen(true)} className="flex-end self-end">
+          Add new order
+        </Button>
+      </div>
+      <div className="w-full">
+        <OrdersTable
+          tableHeaders={tableHeaders}
+          tableRows={filteredOrders}
+          tableClassName="my-10 w-full"
+          loading={loading}
+          maxItems={15}
+          totalPages={totalPages}
+          error={error}
+          onToggleActive={handleToggleActive}
+          onDecisionChange={handleDecisionChange}
+          deleteOrder={handleDeleteOrder}
+        />
+      </div>
     </div>
-
-  );
+    {isModalOpen && (
+      <AddOrderModal
+        onSubmit={(values) => handleAddOrder(values as OrderData)}
+        onClose={() => setModalOpen(false)}
+      />
+    )}
+  </div>
+);
 }
 
 export default OrdersPage;
