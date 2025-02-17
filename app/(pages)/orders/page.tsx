@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/Redux/config/store";
 import {
+  createOrder,
   fetchOrders,
+  Order,
   toggleOrderStatus,
   updateOrderDecision,
 } from "@/Redux/slices/ordersSlice";
@@ -30,7 +32,7 @@ interface OrderData {
   amount: number;
   active: boolean;
   decision: null;
-  items: OrderItem[];
+  Items: OrderItem[];
 }
 function OrdersPage() {
 
@@ -78,9 +80,19 @@ function OrdersPage() {
       });
   };
   const [isModalOpen, setModalOpen] = useState(false);
-  const handleAddOrder = (newOrder: OrderData) => {
-    console.log("New Order Received:", JSON.stringify(newOrder, null, 2));
+  const handleAddOrder = async (newOrder: OrderData) => {
+    try {
+      const resultAction = await dispatch(createOrder(newOrder)).unwrap();
+  
+      if (resultAction) {
+        toast.success("Order created successfully!");
+        setModalOpen(false); // Close modal on success
+      }
+    } catch (error) {
+      toast.error("Failed to create order.");
+    }
   };
+  
 
 
 //Here to pass the max item per page and the total page to dynamicly pass it through tables

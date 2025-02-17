@@ -18,7 +18,7 @@ interface OrderData {
   amount: number;
   active: boolean;
   decision: null;
-  items: OrderItem[];
+  Items: OrderItem[];
 }
 
 interface AddOrderModalProps {
@@ -36,17 +36,17 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({ onSubmit, onClose }) => {
             id: Date.now(),
             reason: "",
             store_name: "",
-            store_logo: "",
+            store_logo: "/addlogo.png",
             store_url: "",
             amount: 0,
             active: false,
             decision: null,
-            items: [],
+            Items: [],
           }}
           validationSchema={Yup.object().shape({
             reason: Yup.string().required("Reason is required"),
             store_name: Yup.string().required("Store name is required"),
-            store_logo: Yup.string().url("Invalid URL"),
+            // store_logo: Yup.string().url("Invalid URL"),
             store_url: Yup.string()
               .url("Invalid URL")
               .required("Store URL is required"),
@@ -92,19 +92,7 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({ onSubmit, onClose }) => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div>
-                <label>Store Logo URL</label>
-                <Field
-                  name="store_logo"
-                  type="url"
-                  className="border p-2 w-full"
-                />
-                <ErrorMessage
-                  name="store_logo"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
+
               <div>
                 <label>Store URL</label>
                 <Field
@@ -141,7 +129,7 @@ const AddOrderModal: React.FC<AddOrderModalProps> = ({ onSubmit, onClose }) => {
                 {({ push, remove }) => (
                   <div className="max-h-60 overflow-y-auto border p-2 mt-5 rounded-md">
                     <h3 className="font-bold mt-4">Items</h3>
-                    {values.items.map((_, index) => (
+                    {values.Items.map((_, index) => (
                       <div
                         key={index}
                         className="border p-2 mb-2 bg-gray-200 rounded"

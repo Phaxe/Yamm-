@@ -16,7 +16,7 @@ export interface OrderItem {
 
 // Define the type for a single order
 export interface Order {
-  id: string;
+  id: number;
   reason: string;
   store_name: string;
   store_logo: string;
@@ -150,6 +150,17 @@ const ordersSlice = createSlice({
         state.data = state.data.map((order) =>
           order.id === updatedOrder.id ? updatedOrder : order
         );
+      })
+      .addCase(createOrder.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createOrder.fulfilled, (state, action: PayloadAction<Order>) => {
+        state.loading = false;
+        state.data.push(action.payload); // Add new order to the state
+      })
+      .addCase(createOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to create order";
       });
   },
 });
